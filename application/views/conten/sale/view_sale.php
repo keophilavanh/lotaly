@@ -18,11 +18,13 @@
 
 <div class="d-flex">
     
-   
+<?php
+         $this->load->view('conten/sale/view_menu');
+    ?>
 
     <div class="content p-4">
 
-    <h5 id="periods" class="mb-4">ອອກຄັ້ງວັນທີ 22-012-2019</h5>
+    <h5 id="periods" class="mb-4">ບໍ່ອານຸຍາດໃຫ້ຂາຍ</h5>
 
         <div class="row">
             <div class="col-sm-12" style="position: relative; overflow: hidden; overflow-y: scroll; height: 320px; width: 100%; padding: 8px;">
@@ -187,30 +189,30 @@
             <div style="width: 40%; padding-left: 15px;" >
 
                     
-                        <div class="d-flex border Click_print" style="width: 100%; height: 100px; padding: 3px;" >
+                        <div class="d-flex border Click_print" style="width: 100%; height: 110px; padding: 3px;" >
                                                 
                             <div class="flex-grow-1 bg-white p-4 manag" >
                                 <center>
                                                             
-                                    <h1 style="margin : 15px;  font-size: 4vw;">ພີມບິນ</h1>
+                                    <h1 style="margin : 15px;  font-size: 2.5vw; ">ພີມບິນ</h1>
                                 </center>
                             </div>
                         </div>
-                        <div class="d-flex border Click_reload" style="width: 100%; height: 100px; padding: 3px;" >
+                        <div class="d-flex border Click_reload" style="width: 100%; height: 110px; padding: 3px;" >
                                                 
                             <div class="flex-grow-1 bg-white p-4 manag" >
                                 <center>
                                                             
-                                    <h1 style="margin : 15px;  font-size: 4vw;">ເລີ່ມໃໝ່</h1>
+                                    <h1 style="margin : 15px;  font-size: 2.5vw;">ເລີ່ມໃໝ່</h1>
                                 </center>
                             </div>
                         </div>
-                        <div class="d-flex border Click_add" style="width: 100%; height: 100px; padding: 3px;" >
+                        <div class="d-flex border Click_add" style="width: 100%; height: 110px; padding: 3px;" >
                                                 
                             <div class="flex-grow-1 bg-white p-4 manag" >
                                 <center>
                                                             
-                                    <h1 style="margin : 15px;  font-size: 4vw;">ຂາຍ</h1>
+                                    <h1 style="margin : 15px;  font-size: 2.5vw;">ຂາຍ</h1>
                                 </center>
                             </div>
                         </div>
@@ -246,9 +248,20 @@
                     data:{},  
                     dataType:"json",  
                     success:function(data){  
+                        //alert(data);
                          
+                        if(data){
+                            
+                            document.getElementById("periods").innerHTML = 'ອອກຄັ້ງວັນທີ '+formatDate(data.Date_random);
+                        }else{
+                            swal({
+                                    title: "ປິດການຂາຍແລ້ວ",
+                                    text: "ບໍ່ອານຸຍາດໃຫ້ຂາຍ",
+                                    icon: "warning",
+                                  
+                                });
+                        }
                         
-                        document.getElementById("periods").innerHTML = 'ອອກຄັ້ງວັນທີ '+formatDate(data.Date_random);
                     }  
     }); 
 
@@ -465,33 +478,61 @@
 
                                             $.toast({
                                                     heading: 'ແຈ້ງເຕືອນ!',
-                                                    text: 'xxxxxxx',
+                                                    text: 'ຂາຍສຳເລັດ',
                                                     textFont: 'Saysettha OT',
-                                                    bgColor: '#cc3300',
+                                                    bgColor: '#33cc33',
                                                     position: 'top-right',
                                                     icon: 'error',
                                                     loader: false,   
                                                     loaderBg: '#ff6666',
                                                     textColor: 'white'
                                                 })
-                                            location.reload();
+                                             location.reload();
 
                                            
+                                        }else if(data.status=='Full'){
+
+
+                                                 $.toast({
+                                                    heading: 'ແຈ້ງເຕືອນ!',
+                                                    text: 'ເລກ: '+data.Number+' ຍັງເຫຼືອ: '+data.total+' ກີບ',
+                                                    textFont: 'Saysettha OT',
+                                                    bgColor: '#1a1aff',
+                                                    position: 'top-right',
+                                                    icon: 'error',
+                                                    loader: false,   
+                                                    loaderBg: '#ff6666',
+                                                    textColor: 'white'
+                                                })
                                         }else{
 
 
-                                            $.toast({
-                                                    heading: 'ແຈ້ງເຕືອນ!',
-                                                    text: 'insert ບໍ່ສຳເລັດ',
-                                                    textFont: 'Saysettha OT',
-                                                    bgColor: '#cc3300',
-                                                    position: 'top-right',
-                                                    icon: 'error',
-                                                    loader: false,   
-                                                    loaderBg: '#ff6666',
-                                                    textColor: 'white'
-                                                })
+                                                $.toast({
+                                                        heading: 'ແຈ້ງເຕືອນ!',
+                                                        text: 'insert ບໍ່ສຳເລັດ',
+                                                        textFont: 'Saysettha OT',
+                                                        bgColor: '#cc3300',
+                                                        position: 'top-right',
+                                                        icon: 'error',
+                                                        loader: false,   
+                                                        loaderBg: '#ff6666',
+                                                        textColor: 'white'
+                                                    })
                                         }
+                                    },
+                                    error: function (error) {
+                                       console.log(error);
+                                        $.toast({
+                                                        heading: 'ແຈ້ງເຕືອນ!',
+                                                        text: 'ບໍ່ສາມາດຂາຍໄດ້ ',
+                                                        textFont: 'Saysettha OT',
+                                                        bgColor: '#cc3300',
+                                                        position: 'top-right',
+                                                        icon: 'error',
+                                                        loader: false,   
+                                                        loaderBg: '#ff6666',
+                                                        textColor: 'white'
+                                                    })
                                     }
                                 });
                                

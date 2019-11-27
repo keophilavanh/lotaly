@@ -151,6 +151,44 @@ class Periods_model extends MY_Model{
           return $row->periods_id;  
       
      }
+
+     function periods_number_random($id){
+
+          $this->db->select('out_put_random');
+          $this->db->from($this->table);
+          $this->db->where('periods_id',$id);
+          $query = $this->db->get();
+          $row = $query->row();
+
+          return $row->out_put_random;  
+      
+     }
+
+     function periods_date_random($id){
+
+          $this->db->select('Date_random');
+          $this->db->from($this->table);
+          $this->db->where('periods_id',$id);
+          $query = $this->db->get();
+          $row = $query->row();
+
+          return date("d/m/Y", strtotime($row->Date_random));  
+      
+     }
+
+     function Top_Periods(){
+          $this->db->select('*');
+          $this->db->from($this->table);
+          $this->db->limit(3,0);  
+          $this->db->order_by('periods_id', 'DESC');  
+          $query = $this->db->get();
+          $query->row();
+
+          // $query = $this->db->get($this->table, 0, 3);
+
+          return $query->result();  
+      
+     }
 }
 
 ?>

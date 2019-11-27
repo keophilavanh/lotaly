@@ -9,8 +9,9 @@
                 <i class="fas fa-file-alt  fa-inverse"></i> ລາຍງານ
                 </a>
                 <ul id="sm_expand_1" class="list-unstyled collapse">
-                    <li><a href="#">Submenu Item</a></li>
-                    <li><a href="#">Submenu Item</a></li>
+                    <li><a href="<?php echo base_url('Report-Sale-Select-Periods') ?>"> ລາຍງານການຂາຍ </a></li>
+                    <li><a href="<?php echo base_url('Report-Sale-by-Employee') ?>"> ລາຍງານການຂາຍຕາມບຸກຄົນ </a></li>
+                    <li><a href="<?php echo base_url('Report-Sale-Employee-Select-Periods') ?>">ລາຍງານການຂາຍຂອງ ພ/ງ</a></li>
                 </ul>
             </li> 
             <li><a href="<?php echo base_url('Employee') ?>"><i class="fa fa-fw fa-users"></i> ຂໍ້ມູນພະນັກງານຂາຍ</a></li>

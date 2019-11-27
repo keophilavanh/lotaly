@@ -8,7 +8,23 @@ class Sale_model extends MY_Model{
     // var $primary_key = 'sel_id';
     var $table = "tb_sell";  
    
+    public function check_Sale($periods,$number){
 
+          $this->db->select_sum('tb_sell_detail.price');  
+          $this->db->from('tb_sell_detail');  
+          $this->db->join('tb_sell','tb_sell.sel_id = tb_sell_detail.sel_id');
+          $this->db->where('tb_sell.periods_id', $periods);
+          $this->db->where('tb_sell_detail.number',$number);
+          $query = $this->db->get();
+          $row = $query->row();
+         
+          if($row->price){
+               return  $row->price;
+          }else {
+               return  0;
+          }
+         
+     }
     
 
      function add_data($info)

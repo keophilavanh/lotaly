@@ -116,12 +116,39 @@ class Employee_model extends MY_Model{
            
      }
 
+    
+
+     function user_list(){
+          $this->db->select('*');
+          $this->db->from($this->table);
+          $query = $this->db->get();
+          $query->row();
+
+          return $query->result();  
+      
+     }
+
+     function user_name($id){
+          
+
+          $this->db->select('emp_fname,emp_lname');
+          $this->db->from('tb_employee');
+          $this->db->where('emp_id',$id);
+          $query = $this->db->get();
+          $row = $query->row();
+
+          return $row->emp_fname.' '.$row->emp_lname;  
+
+      
+     }
+
      function user_login($username,$password){
 
           $this->db->select('*');
           $this->db->from('tb_employee');
           $this->db->where('username', $username);
           $this->db->where('password', $password);
+          $this->db->where('permission', 'Enable');
           $query = $this->db->get();
 
           if($query){
@@ -155,6 +182,7 @@ class Employee_model extends MY_Model{
                $this->db->from('tb_employee');
                $this->db->where('username', $oj->username);
                $this->db->where('password', $oj->password);
+               $this->db->where('permission', 'Enable');
                $query = $this->db->get();
                $cb = $query->row();
                //  die($cb->Date_login .' '.date("Y-m-d"));
@@ -188,6 +216,7 @@ class Employee_model extends MY_Model{
                $this->db->from('tb_employee');
                $this->db->where('username', $oj->username);
                $this->db->where('password', $oj->password);
+               $this->db->where('permission', 'Enable');
                $query = $this->db->get();
                $cb = $query->row();
                //  die($cb->Date_login .' '.date("Y-m-d"));

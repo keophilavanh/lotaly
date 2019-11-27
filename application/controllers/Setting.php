@@ -28,24 +28,29 @@ class Setting extends CI_Controller{
    
     public function Edit_data(){
 
-        $data = array(
-            'number2' => $_POST["number2"],
-            'number3' => $_POST["number3"],
-            'number4' => $_POST["number4"],
-            'number5' => $_POST["number5"],
-           
-            );
-        
-        echo json_encode($this->Remit_model->Edit_data($data));
+        if($this->Users_model->check_token())
+        {
 
-       
+            $data = array(
+                'number2' => $_POST["number2"],
+                'number3' => $_POST["number3"],
+                'number4' => $_POST["number4"],
+                'number5' => $_POST["number5"],
+            
+                );
+            
+            echo json_encode($this->Remit_model->Edit_data($data));
+
+        }
         
     }
 
     public function get_data(){
+        if($this->Users_model->check_token())
+        {
         
-        
-        echo json_encode($this->Remit_model->get_data());
+            echo json_encode($this->Remit_model->get_data());
+        }
     }
 
    

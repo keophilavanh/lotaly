@@ -25,81 +25,87 @@ class Ticket extends CI_Controller{
 
     function fetch_data(){  
       
-       
-        $fetch_data = $this->Sale_model->make_datatables();  
-        $data = array();  
+        if($this->Users_model->check_token())
+        {
+                $fetch_data = $this->Sale_model->make_datatables();  
+                $data = array();  
 
-        if($this->Sale_model->get_all_data() > 0){
+                if($this->Sale_model->get_all_data() > 0){
 
-            foreach($fetch_data as $row)  
-            {  
-             $sub_array = array();  
-             $sub_array[] = $row->sel_id;   
-             $sub_array[] =  date("d/m/Y", strtotime($row->Date_random)); 
-             $sub_array[] = date("d/m/Y", strtotime($row->sel_date));   
-             $sub_array[] = $row->emp_fname.' '. $row->emp_lname;
-             $sub_array[] = $row->status;   
-             
-            
-                if($row->status=="Normal"){
+                    foreach($fetch_data as $row)  
+                    {  
+                    $sub_array = array();  
+                    $sub_array[] = $row->sel_id;   
+                    $sub_array[] =  date("d/m/Y", strtotime($row->Date_random)); 
+                    $sub_array[] = date("d/m/Y", strtotime($row->sel_date));   
+                    $sub_array[] = $row->emp_fname.' '. $row->emp_lname;
+                    $sub_array[] = $row->status;   
+                    
+                    
+                        if($row->status=="Normal"){
 
-                    $sub_array[] = '<a href="#" id="'.$row->sel_id.'" class="btn btn-pill btn-primary update_data" data-toggle="tooltip" title="Close"> ຍົກເລີກໃບບິນ </a> 
-                                '; 
+                            $sub_array[] = '<a href="#" id="'.$row->sel_id.'" class="btn btn-pill btn-primary update_data" data-toggle="tooltip" title="Close"> ຍົກເລີກໃບບິນ </a> 
+                                        '; 
+
+                        }else{
+                            $sub_array[] = 'ຜູ້ຍົກເລີກ '.$row->user_update;
+                        }
+                    
+                    
+                    $data[] = $sub_array;  
+                    } 
 
                 }else{
-                    $sub_array[] = 'ຜູ້ຍົກເລີກ '.$row->user_update;
+
+                    $sub_array = array();  
+                    $sub_array[] = '';   
+                    $sub_array[] = '';  
+                    $sub_array[] = '';  
+                    $sub_array[] = '';   
+                    $sub_array[] = '';  
+                    $sub_array[] = ''; 
+                
+                    
+                
+                    $data[] = $sub_array;  
+
+
                 }
-              
-            
-             $data[] = $sub_array;  
-            } 
-
-        }else{
-
-            $sub_array = array();  
-            $sub_array[] = '';   
-            $sub_array[] = '';  
-            $sub_array[] = '';  
-            $sub_array[] = '';   
-            $sub_array[] = '';  
-            $sub_array[] = ''; 
-           
-            
-           
-            $data[] = $sub_array;  
-
-
-        }
-         
-        $output = array(  
-             "draw"                    =>     intval($_POST["draw"]),  
-             "recordsTotal"          =>      $this->Sale_model->get_all_data(),  
-             "recordsFiltered"     =>     $this->Sale_model->get_filtered_data(),  
-             "data"                    =>     $data  
-        );  
-        echo json_encode($output);  
+                
+                $output = array(  
+                    "draw"                    =>     intval($_POST["draw"]),  
+                    "recordsTotal"          =>      $this->Sale_model->get_all_data(),  
+                    "recordsFiltered"     =>     $this->Sale_model->get_filtered_data(),  
+                    "data"                    =>     $data  
+                );  
+                echo json_encode($output); 
+        } 
    } 
 
     public function update_data(){
-      
-        $user = $this->Users_model->get_username();
-        $id = $_POST["ticket_id"];
-        $data = array(         
-            'status' =>  'Cancel',
-            'user_update' =>  $user,
-            );
-                
-        if($this->Sale_model->Edit_data($data,$id)){
-            $myObj = array(
-                'status' => 'ok',
-                'msg' =>  'ຍົກເລີກໃບບິນສຳເລັດ...'
+
+        if($this->Users_model->check_token())
+        {
+        
+            $user = $this->Users_model->get_username();
+            $id = $_POST["ticket_id"];
+            $data = array(         
+                'status' =>  'Cancel',
+                'user_update' =>  $user,
                 );
-            echo json_encode($myObj);
-        }else{
-            $myObj = array(
-                'status' => 'on',
-                'msg' =>  'ຍົກເລີກໃບບິນບໍ່ສຳເລັດ...'
-                );
+                    
+            if($this->Sale_model->Edit_data($data,$id)){
+                $myObj = array(
+                    'status' => 'ok',
+                    'msg' =>  'ຍົກເລີກໃບບິນສຳເລັດ...'
+                    );
+                echo json_encode($myObj);
+            }else{
+                $myObj = array(
+                    'status' => 'on',
+                    'msg' =>  'ຍົກເລີກໃບບິນບໍ່ສຳເລັດ...'
+                    );
+            }
         }
 
 

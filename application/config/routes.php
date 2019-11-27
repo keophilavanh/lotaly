@@ -54,5 +54,25 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['Admin'] = 'User_login';
+$route['Report-Sale'] = 'Report_sale';
+$route['Report-Periods/(:num)'] = 'Report_sale/report/$1';
+$route['Report-Award'] = 'Award_user_report';
+$route['Report-Periods-Award/(:num)'] = 'Award_user_report/report/$1';
+
+
+$route['Report-Sale-Select-Periods'] = 'Admin_report/report_select_sale';
+$route['Report-Sale-Periods/(:num)'] = 'Admin_report/report_sale/$1';
+
+$route['Report-Sale-Employee-Select-Periods'] = 'Admin_report/report_select_employee';
+$route['Report-Sale-Employee-Periods/(:num)'] = 'Admin_report/report_employee/$1';
+
+$route['Report-Sale-by-Employee'] = 'Admin_report/report_select_by_employee';
+$route['Report-Sale-by-Employee-Periods/(:num)/(:num)'] = 'Admin_report/report_sale_by_employee/$1/$2';
+
+$route['Tick-Sale/(:num)'] = 'sale_ticket/ticket/$1';
+
+
+
 $route['Admin_logout'] = 'User_login/user_logout';
 $route['User_logout'] = 'login/user_logout';
+
